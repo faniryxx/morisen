@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        testDatabase();
         createSignInIntent();
     }
 
@@ -63,21 +62,14 @@ public class MainActivity extends AppCompatActivity {
             // Successfully signed in
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             Log.i("INFO", "Authenticated successfully") ;
-            // ...
+            Intent intent = new Intent(this, RegisterActivity.class);
+            startActivity(intent);
         } else {
             Log.i("ERROR", "Authentication error") ;
-            // Sign in failed. If response is null the user canceled the
-            // sign-in flow using the back button. Otherwise check
-            // response.getError().getErrorCode() and handle the error.
-            // ...
         }
     }
 
-    private void testDatabase(){
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://morisen-9ddf9-default-rtdb.europe-west1.firebasedatabase.app/");
-        DatabaseReference myRef = database.getReference("message");
+    private void userExists() {
 
-        myRef.setValue("Hello, World!");
     }
 }
