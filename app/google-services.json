@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "989384278446",
+    "project_id": "morisen-9ddf9",
+    "storage_bucket": "morisen-9ddf9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989384278446:android:bbb0984df4bf65ba06083f",
+        "android_client_info": {
+          "package_name": "fr.isen.morisen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "989384278446-tgo3b2pgngagpdngsj0nr4jdq1424khg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.isen.morisen",
+            "certificate_hash": "69d4047a9f3d47d5bb392a322667d3ce3235d74c"
+          }
+        },
+        {
+          "client_id": "989384278446-ej9r13qkjsrsn1r4locaq2cketu2hoa3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGVC5v2UR7Sb35BnFmZCc9MCNAxEksqYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "989384278446-ej9r13qkjsrsn1r4locaq2cketu2hoa3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
