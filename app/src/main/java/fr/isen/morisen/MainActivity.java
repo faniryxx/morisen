@@ -61,15 +61,14 @@ public class MainActivity extends AppCompatActivity {
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            Log.i("INFO", "Authenticated successfully") ;
+            //Log.i("INFO", "Authenticated successfully") ;
             Intent intent = new Intent(this, RegisterActivity.class);
+            // Retrieve phone number
+            //Log.i("INFO", user.getPhoneNumber());
+            intent.putExtra("telephone",user.getPhoneNumber());
             startActivity(intent);
         } else {
             Log.i("ERROR", "Authentication error") ;
         }
-    }
-
-    private void userExists() {
-
     }
 }

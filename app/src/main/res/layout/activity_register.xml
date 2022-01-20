@@ -8,8 +8,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="303dp"
-        android:layout_height="77dp"
+        android:layout_width="208dp"
+        android:layout_height="81dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,7 +31,8 @@
         android:id="@+id/registerButton"
         android:layout_width="172dp"
         android:layout_height="58dp"
-        android:text="Continuer"
+        android:onClick="registerButtonClicked"
+        android:text="s'enregistrer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
