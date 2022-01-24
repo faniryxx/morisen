@@ -26,7 +26,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static int playerNumber;
     private DatabaseReference mDatabase;
     private String joueur1;
     private String joueur2;
@@ -46,20 +45,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mDatabase = FirebaseDatabase.getInstance("https://morisen-9ddf9-default-rtdb.europe-west1.firebasedatabase.app").getReference();
-        getPlayerNumber();
+        //getPlayerNumber();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         createSignInIntent();
     }
 
-    /*
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        mDatabase.child("salon1").child("joueurs").child("joueur1").setValue("");
-        mDatabase.child("salon1").child("joueurs").child("joueur2").setValue("");
+        mDatabase.child("salon1").child("joueurs").child("joueur1").child("telephone").setValue("");
+        mDatabase.child("salon1").child("joueurs").child("joueur1").child("pseudo").setValue("");
+        mDatabase.child("salon1").child("joueurs").child("joueur2").child("telephone").setValue("");
+        mDatabase.child("salon1").child("joueurs").child("joueur2").child("pseudo").setValue("");
         Log.i("DESTROYED", "Activity destroyed");
-    }*/
+    }
 
     public void createSignInIntent() {
         // [START auth_fui_create_intent]
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("ERROR", "Authentication error") ;
         }
     }
-
+/*
     private void getPlayerNumber(){
         mDatabase.child("salon1").child("joueurs").child("joueur1").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -107,5 +107,5 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i("joueur1", joueur1) ;
         Log.i("joueur2", joueur2) ;
-    }
+    }*/
 }
