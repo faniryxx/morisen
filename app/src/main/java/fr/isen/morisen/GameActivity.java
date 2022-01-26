@@ -3,6 +3,8 @@ package fr.isen.morisen;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -108,6 +110,7 @@ public class GameActivity extends AppCompatActivity {
     public void buttonClicked(View view){
         String buttonIndex = (String) view.getTag();
         Button button = (Button) view;
+
         button.setClickable(false);
         refCases.child(buttonIndex).setValue(this.playerNumber);
     }
@@ -125,22 +128,12 @@ public class GameActivity extends AppCompatActivity {
         listButtons.add(findViewById(R.id.button8));
         for(int i=0;i< listButtons.size();i++){
             Button button = listButtons.get(i);
-            button.setBackgroundColor(Color.WHITE);
+            button.setText(String.valueOf(0));
+            button.setClickable(true);
         }
     }
 
     private void updateButtons(Long[] cases){
-        /*
-        Button button0 = findViewById(R.id.button0);
-        Button button1 = findViewById(R.id.button1);
-        Button button2 = findViewById(R.id.button2);
-        Button button3 = findViewById(R.id.button3);
-        Button button4 = findViewById(R.id.button4);
-        Button button5 = findViewById(R.id.button5);
-        Button button6 = findViewById(R.id.button6);
-        Button button7 = findViewById(R.id.button7);
-        Button button8 = findViewById(R.id.button8);*/
-
         List<Button> listButtons = new ArrayList<Button>();
         listButtons.add(findViewById(R.id.button0));
         listButtons.add(findViewById(R.id.button1));
@@ -157,6 +150,9 @@ public class GameActivity extends AppCompatActivity {
             button.setText(String.valueOf(cases[i]));
             if(cases[i] != 0){
                 button.setClickable(false);
+            }
+            else if(cases[i] == 0){
+                button.setClickable(true);
             }
         }
     }
@@ -177,8 +173,10 @@ public class GameActivity extends AppCompatActivity {
                 updateButtons(cases);
 
                 int winner = checkIfWin(cases);
-                if(winner!=0)
-                    Log.i("WINNER", "Player "+winner+" wins !");
+                if(winner!=0) {
+                    Log.i("WINNER", "Player " + winner + " wins !");
+                    showWinnerDialog(cases);
+                }
             }
 
             @Override
@@ -187,6 +185,37 @@ public class GameActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    private void showWinnerDialog(Long[] cases){
+        new AlertDialog.Builder(this)
+                .setTitle("Partie terminée")
+                .setMessage("Un joueur a gagné la partie !")
+                .setPositiveButton("Rejouer", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        //initButtons();
+                        clearCases();
+                    }
+                })
+                .setNegativeButton("Quitter", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Quitter l'app
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    private void clearCases(){
+        refCases.child("0").setValue(0);
+        refCases.child("1").setValue(0);
+        refCases.child("2").setValue(0);
+        refCases.child("3").setValue(0);
+        refCases.child("4").setValue(0);
+        refCases.child("5").setValue(0);
+        refCases.child("6").setValue(0);
+        refCases.child("7").setValue(0);
+        refCases.child("8").setValue(0);
     }
 
     private int checkIfWin(Long[] cases){
