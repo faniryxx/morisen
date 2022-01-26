@@ -38,6 +38,7 @@ public class GameActivity extends AppCompatActivity {
     private DatabaseReference refCases;
     private DatabaseReference refJoueurs;
     private DatabaseReference refTour;
+    private DatabaseReference refQuitSignal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class GameActivity extends AppCompatActivity {
         refJoueurs = db.getReference("salon1/joueurs");
         refCases = db.getReference("salon1/cases");
         refTour = db.getReference("salon1/auTourDe");
+        refQuitSignal = db.getReference("salon1/quitSignal");
         setContentView(R.layout.activity_game);
         TextView opponentTextView = findViewById(R.id.opponentTextView);
         TextView tourTextView = findViewById(R.id.tourTextView);
@@ -55,6 +57,7 @@ public class GameActivity extends AppCompatActivity {
         addListenerToRefJoueurs();
         addListenerToRefCases();
         addListenerToRefTour();
+        addListenerToRefQuitSignal();
         Intent intent = this.getIntent();
         this.telephone = intent.getStringExtra("telephone");
         this.pseudo = intent.getStringExtra("pseudo");
@@ -112,6 +115,21 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
+    private void addListenerToRefQuitSignal() {
+        refQuitSignal.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Long quitSignal = (Long) snapshot.getValue();
+                if(quitSignal == 1)
+                    exit();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(GameActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public void buttonClicked(View view){
         String buttonIndex = (String) view.getTag();
         Button button = (Button) view;
@@ -154,6 +172,8 @@ public class GameActivity extends AppCompatActivity {
             }
             else if(cases[i] == 0){
                 button.setClickable(true);
+                // Pour signifier qu'une case est libre, on rajoute le cercle_background en Foreground
+                // qui correspond à une image vide
                 button.setForeground(getDrawable(R.drawable.cercle_background));
             }
         }
@@ -176,6 +196,15 @@ public class GameActivity extends AppCompatActivity {
                         showWinnerDialog(joueur1Pseudo);
                     else if(winner == 2)
                         showWinnerDialog(joueur2Pseudo);
+                }
+                if(winner == 0){
+                    int casesZero = 0;
+                    for (int i=0;i<9;i++){
+                        if(cases[i] == 0)
+                            casesZero++;
+                    }
+                    if (casesZero == 0)
+                        showDrawDialog();
                 }
             }
             @Override
@@ -232,11 +261,30 @@ public class GameActivity extends AppCompatActivity {
                         exit();
                     }
                 })
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    private void showDrawDialog(){
+        new AlertDialog.Builder(this)
+                .setTitle("Partie terminée")
+                .setMessage("Vous avez fait match nul !")
+                .setPositiveButton("Rejouer", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        clearCases();
+                    }
+                })
+                .setNegativeButton("Quitter", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        exit();
+                    }
+                })
                 .show();
     }
 
     private void exit(){
+        clearCases();
+        refQuitSignal.setValue(1);
+        removeCredentials();
         this.finishAffinity();
     }
 
@@ -252,6 +300,15 @@ public class GameActivity extends AppCompatActivity {
         refCases.child("8").setValue(0);
     }
 
+    private void removeCredentials(){
+        FirebaseDatabase db = FirebaseDatabase.getInstance("https://morisen-9ddf9-default-rtdb.europe-west1.firebasedatabase.app");
+        DatabaseReference mDatabase = db.getReference().child("salon1/joueurs/");
+        mDatabase.child("joueur1/pseudo").setValue("");
+        mDatabase.child("joueur1/telephone").setValue("");
+        mDatabase.child("joueur2/pseudo").setValue("");
+        mDatabase.child("joueur2/telephone").setValue("");
+    }
+
     private int checkIfWin(Long[] cases){
        /*
        Numéros des cases:
@@ -260,7 +317,6 @@ public class GameActivity extends AppCompatActivity {
        6    7   8
         */
         int winner = 0;
-
         if(cases[0] == cases[1] && cases[0] == cases[2] && cases[0] != 0){
             if(cases[0] == 1){
                 winner = 1;
@@ -268,7 +324,6 @@ public class GameActivity extends AppCompatActivity {
             else
                 winner = 2;
         }
-
         if(cases[3] == cases[4] && cases[3] == cases[5] && cases[3] != 0){
             if(cases[3] == 1){
                 winner = 1;
@@ -276,7 +331,6 @@ public class GameActivity extends AppCompatActivity {
             else
                 winner = 2;
         }
-
         if(cases[6] == cases[7] && cases[6] == cases[8] && cases[6] != 0){
             if(cases[6] == 1){
                 winner = 1;
@@ -284,7 +338,6 @@ public class GameActivity extends AppCompatActivity {
             else
                 winner = 2;
         }
-
         if(cases[0] == cases[3] && cases[0] == cases[6] && cases[0] != 0){
             if(cases[0] == 1){
                 winner = 1;
@@ -292,7 +345,6 @@ public class GameActivity extends AppCompatActivity {
             else
                 winner = 2;
         }
-
         if(cases[1] == cases[4] && cases[1] == cases[7] && cases[1] != 0){
             if(cases[1] == 1){
                 winner = 1;
@@ -300,7 +352,6 @@ public class GameActivity extends AppCompatActivity {
             else
                 winner = 2;
         }
-
         if(cases[2] == cases[5] && cases[2] == cases[8] && cases[2] != 0){
             if(cases[2] == 1){
                 winner = 1;
@@ -308,7 +359,6 @@ public class GameActivity extends AppCompatActivity {
             else
                 winner = 2;
         }
-
         if(cases[0] == cases[4] && cases[0] == cases[8] && cases[0] != 0){
             if(cases[0] == 1){
                 winner = 1;
@@ -316,7 +366,6 @@ public class GameActivity extends AppCompatActivity {
             else
                 winner = 2;
         }
-
         if(cases[2] == cases[4] && cases[2] == cases[6] && cases[2] != 0){
             if(cases[2] == 1){
                 winner = 1;
@@ -324,8 +373,6 @@ public class GameActivity extends AppCompatActivity {
             else
                 winner = 2;
         }
-
         return winner;
     }
-
 }

@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         mDatabase = FirebaseDatabase.getInstance("https://morisen-9ddf9-default-rtdb.europe-west1.firebasedatabase.app").getReference();
         //getPlayerNumber();
+        mDatabase.child("salon1/quitSignal").setValue(0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         createSignInIntent();
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy(){
         super.onDestroy();
         mDatabase.child("salon1").child("auTourDe").setValue(1);
+        mDatabase.child("salon1").child("quitSignal").setValue(0);
         mDatabase.child("salon1").child("joueurs").child("joueur1").child("telephone").setValue("");
         mDatabase.child("salon1").child("joueurs").child("joueur1").child("pseudo").setValue("");
         mDatabase.child("salon1").child("joueurs").child("joueur2").child("telephone").setValue("");
