@@ -121,13 +121,25 @@ public class GameActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Long quitSignal = (Long) snapshot.getValue();
                 if(quitSignal == 1)
-                    exit();
+                    showOpponentQuitDialog();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(GameActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void showOpponentQuitDialog(){
+        new AlertDialog.Builder(this)
+                .setTitle("Déconnexion de l'adversaire")
+                .setMessage("Votre adversaire a été déconnecté.")
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        exit();
+                    }
+                })
+                .show();
     }
 
     public void buttonClicked(View view){

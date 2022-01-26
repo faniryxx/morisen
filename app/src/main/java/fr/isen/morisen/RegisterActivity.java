@@ -20,13 +20,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity{
-    // Values in place
     private String joueur1Telephone;
     private String joueur1Pseudo;
     private String joueur2Telephone;
     private String joueur2Pseudo;
 
-    // Values to be inserted
     private String telephone;
     private String pseudo;
 
