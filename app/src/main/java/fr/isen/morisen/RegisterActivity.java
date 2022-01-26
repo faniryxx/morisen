@@ -5,12 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,8 +26,6 @@ public class RegisterActivity extends AppCompatActivity{
     private String telephone;
     private String pseudo;
 
-    private int playerNumber;
-
     private EditText pseudoText;
     private DatabaseReference mDatabase;
 
@@ -38,12 +34,12 @@ public class RegisterActivity extends AppCompatActivity{
         Intent intent = this.getIntent();
         this.telephone = intent.getStringExtra("telephone");
         mDatabase = FirebaseDatabase.getInstance("https://morisen-9ddf9-default-rtdb.europe-west1.firebasedatabase.app").getReference();
-        //Log.i("INFO", this.telephone);
         getPlayerDetails();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
     }
 
+    // Sur un clic du bouton S'enregistrer
     public void registerButtonClicked(View view) {
         pseudoText = findViewById(R.id.pseudoText);
         pseudo = pseudoText.getText().toString();
@@ -56,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity{
         startActivity(intent);
     }
 
+    // Set les variables de la classe
     private void setVariables(String pseudo1, String tel1, String pseudo2, String tel2){
         joueur1Telephone = tel1;
         joueur2Telephone = tel2;
@@ -63,6 +60,7 @@ public class RegisterActivity extends AppCompatActivity{
         joueur2Pseudo = pseudo2;
     }
 
+    // Retourne le numéro du joueur qui est sur l'application
     private int getPlayerNumber(){
         if(joueur1Telephone.isEmpty()) {
             return 1;
@@ -71,6 +69,7 @@ public class RegisterActivity extends AppCompatActivity{
             return 2;
     }
 
+    // Permet de récupérer le pseudo et le téléphone des deux joueurs
     private void getPlayerDetails() {
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -99,6 +98,7 @@ public class RegisterActivity extends AppCompatActivity{
         });
     }
 
+    // Faire l'update des données des deux joueurs dans la database Firebase
     private void writePlayerDataToDatabase(int playerNumber){
         switch (playerNumber) {
             case 1:

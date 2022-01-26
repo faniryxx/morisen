@@ -64,6 +64,8 @@ public class GameActivity extends AppCompatActivity {
         this.playerNumber = intent.getIntExtra("playerNumber",0);
     }
 
+    // Modifier les textviews selon le déroulement du jeu
+    // Par ex., afficher le pseudo des deux joueurs quand un deuxième joueur se connecte
     private void updateTextViews(int playerNumber){
         TextView opponentTextView = findViewById(R.id.opponentTextView);
         TextView statusTextView = findViewById(R.id.statusTextView);
@@ -83,6 +85,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    // Set les variables de la classe
     private void setVariables(String pseudo1, String tel1, String pseudo2, String tel2){
         joueur1Telephone = tel1;
         joueur2Telephone = tel2;
@@ -90,6 +93,7 @@ public class GameActivity extends AppCompatActivity {
         joueur2Pseudo = pseudo2;
     }
 
+    // Ajout d'un listener sur refJoueurs
     private void addListenerToRefJoueurs() {
         refJoueurs.addValueEventListener(new ValueEventListener() {
             @Override
@@ -115,6 +119,7 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
+    // Ajout d'un listener sur refQuitSignal
     private void addListenerToRefQuitSignal() {
         refQuitSignal.addValueEventListener(new ValueEventListener() {
             @Override
@@ -130,6 +135,7 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
+    // Afficher un popup quand l'adversaire a quitté la partie
     private void showOpponentQuitDialog(){
         new AlertDialog.Builder(this)
                 .setTitle("Déconnexion de l'adversaire")
@@ -142,6 +148,7 @@ public class GameActivity extends AppCompatActivity {
                 .show();
     }
 
+    // Gère le clic sur les boutons de la matrice
     public void buttonClicked(View view){
         String buttonIndex = (String) view.getTag();
         Button button = (Button) view;
@@ -153,6 +160,7 @@ public class GameActivity extends AppCompatActivity {
             refTour.setValue(1);
         }
     }
+
 
     private List<Button> getAllButtons(){
         List<Button> listButtons = new ArrayList<Button>();
@@ -168,6 +176,7 @@ public class GameActivity extends AppCompatActivity {
         return listButtons;
     }
 
+    // Gestion des attributs des boutons selon les attributs
     private void updateButtons(Long[] cases){
         List<Button> listButtons = getAllButtons();
         for(int i=0;i< listButtons.size();i++){
@@ -191,6 +200,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    // Ajout d'un listener sur refCases
     private void addListenerToRefCases() {
         refCases.addValueEventListener(new ValueEventListener() {
             @Override
@@ -245,6 +255,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    // Ajout d'un listener sur refTour
     private void addListenerToRefTour() {
         refTour.addValueEventListener(new ValueEventListener() {
             @Override
@@ -259,6 +270,7 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
+    // Afficher un popup quand il y a un vainqueur
     private void showWinnerDialog(String pseudo){
         new AlertDialog.Builder(this)
                 .setTitle("Partie terminée")
@@ -276,6 +288,7 @@ public class GameActivity extends AppCompatActivity {
                 .show();
     }
 
+    // Afficher un popup quand il y a match nul
     private void showDrawDialog(){
         new AlertDialog.Builder(this)
                 .setTitle("Partie terminée")
@@ -293,6 +306,7 @@ public class GameActivity extends AppCompatActivity {
                 .show();
     }
 
+    // Remettre la base à l'état d'origine
     private void exit(){
         clearCases();
         refQuitSignal.setValue(1);
@@ -321,6 +335,7 @@ public class GameActivity extends AppCompatActivity {
         mDatabase.child("joueur2/telephone").setValue("");
     }
 
+    // Algorithme de jeu
     private int checkIfWin(Long[] cases){
        /*
        Numéros des cases:

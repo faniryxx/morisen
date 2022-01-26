@@ -2,7 +2,6 @@ package fr.isen.morisen;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,11 +12,8 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -27,8 +23,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
-    private String joueur1;
-    private String joueur2;
 
     private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
             new FirebaseAuthUIActivityResultContract(),
@@ -53,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy(){
         super.onDestroy();
         mDatabase.child("salon1").child("auTourDe").setValue(1);
-        mDatabase.child("salon1").child("quitSignal").setValue(0);
+        mDatabase.child("salon1").child("quitSignal").setValue(1);
         mDatabase.child("salon1").child("joueurs").child("joueur1").child("telephone").setValue("");
         mDatabase.child("salon1").child("joueurs").child("joueur1").child("pseudo").setValue("");
         mDatabase.child("salon1").child("joueurs").child("joueur2").child("telephone").setValue("");
