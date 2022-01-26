@@ -91,7 +91,8 @@
                                               <map>
                                                 <entry key="color" value="000000" />
                                                 <entry key="imagePath" value="$PROJECT_DIR$/../../../croix.png" />
-                                                <entry key="scalingPercent" value="42" />
+                                                <entry key="scalingPercent" value="80" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -126,6 +127,7 @@
                                       <entry key="generateLegacyIcon" value="false" />
                                       <entry key="generatePlayStoreIcon" value="false" />
                                       <entry key="generateRoundIcon" value="false" />
+                                      <entry key="legacyIconShape" value="NONE" />
                                       <entry key="outputName" value="croix" />
                                     </map>
                                   </option>

@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,24 +30,31 @@ public class GameActivity extends AppCompatActivity {
     private String joueur2Telephone;
     private String joueur2Pseudo;
 
+    private Long auTourDe;
+
     private String telephone;
     private String pseudo;
     private static int playerNumber;
     private DatabaseReference refCases;
     private DatabaseReference refJoueurs;
+    private DatabaseReference refTour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.auTourDe = Long.valueOf(1);
         super.onCreate(savedInstanceState);
         FirebaseDatabase db = FirebaseDatabase.getInstance("https://morisen-9ddf9-default-rtdb.europe-west1.firebasedatabase.app");
         refJoueurs = db.getReference("salon1/joueurs");
         refCases = db.getReference("salon1/cases");
+        refTour = db.getReference("salon1/auTourDe");
         setContentView(R.layout.activity_game);
-        //initButtons();
         TextView opponentTextView = findViewById(R.id.opponentTextView);
+        TextView tourTextView = findViewById(R.id.tourTextView);
+        tourTextView.setVisibility(View.INVISIBLE);
         opponentTextView.setText("");
         addListenerToRefJoueurs();
         addListenerToRefCases();
+        addListenerToRefTour();
         Intent intent = this.getIntent();
         this.telephone = intent.getStringExtra("telephone");
         this.pseudo = intent.getStringExtra("pseudo");
@@ -85,26 +91,24 @@ public class GameActivity extends AppCompatActivity {
         refJoueurs.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 HashMap value = (HashMap) snapshot.getValue();
                 HashMap joueur1Data = (HashMap) value.get("joueur1");
                 String joueur1Pseudo = (String) joueur1Data.get("pseudo");
                 String joueur1Telephone = (String) joueur1Data.get("telephone");
-
                 HashMap joueur2Data = (HashMap) value.get("joueur2");
                 String joueur2Pseudo = (String) joueur2Data.get("pseudo");
                 String joueur2Telephone = (String) joueur2Data.get("telephone");
-
-
                 setVariables(joueur1Pseudo,joueur1Telephone,joueur2Pseudo,joueur2Telephone);
+                if(!joueur1Pseudo.isEmpty() && !joueur2Pseudo.isEmpty()){
+                    TextView tourTextView = findViewById(R.id.tourTextView);
+                    tourTextView.setVisibility(View.VISIBLE);
+                }
                 updateTextViews(GameActivity.playerNumber);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(GameActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
             }
-
         });
     }
 
@@ -113,27 +117,14 @@ public class GameActivity extends AppCompatActivity {
         Button button = (Button) view;
         button.setClickable(false);
         refCases.child(buttonIndex).setValue(this.playerNumber);
-    }
-
-    private void initButtons(){
-        List<Button> listButtons = new ArrayList<Button>();
-        listButtons.add(findViewById(R.id.button0));
-        listButtons.add(findViewById(R.id.button1));
-        listButtons.add(findViewById(R.id.button2));
-        listButtons.add(findViewById(R.id.button3));
-        listButtons.add(findViewById(R.id.button4));
-        listButtons.add(findViewById(R.id.button5));
-        listButtons.add(findViewById(R.id.button6));
-        listButtons.add(findViewById(R.id.button7));
-        listButtons.add(findViewById(R.id.button8));
-        for(int i=0;i< listButtons.size();i++){
-            Button button = listButtons.get(i);
-            button.setText(String.valueOf(0));
-            button.setClickable(true);
+        if (auTourDe == 1) {
+            refTour.setValue(2);
+        } else if (auTourDe == 2) {
+            refTour.setValue(1);
         }
     }
 
-    private void updateButtons(Long[] cases){
+    private List<Button> getAllButtons(){
         List<Button> listButtons = new ArrayList<Button>();
         listButtons.add(findViewById(R.id.button0));
         listButtons.add(findViewById(R.id.button1));
@@ -144,10 +135,13 @@ public class GameActivity extends AppCompatActivity {
         listButtons.add(findViewById(R.id.button6));
         listButtons.add(findViewById(R.id.button7));
         listButtons.add(findViewById(R.id.button8));
+        return listButtons;
+    }
 
+    private void updateButtons(Long[] cases){
+        List<Button> listButtons = getAllButtons();
         for(int i=0;i< listButtons.size();i++){
             Button button = listButtons.get(i);
-            //button.setText(String.valueOf(cases[i]));
             if(cases[i] == 1){
                 button.setForeground(getDrawable(R.mipmap.cercle_foreground));
                 Log.i("DEBUG", "cases["+i+"+] == 1");
@@ -155,7 +149,6 @@ public class GameActivity extends AppCompatActivity {
             else if(cases[i] == 2){
                 button.setForeground(getDrawable(R.mipmap.croix_foreground));
             }
-
             if(cases[i] != 0){
                 button.setClickable(false);
             }
@@ -170,49 +163,81 @@ public class GameActivity extends AppCompatActivity {
         refCases.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 List<Object> values = (List<Object>) snapshot.getValue();
-
                 Long[] cases;
                 cases = new Long[9];
                 for(int i=0;i<9;i++){
                     cases[i] = (Long) values.get(i);
                 }
-
                 updateButtons(cases);
-
                 int winner = checkIfWin(cases);
                 if(winner!=0) {
-                    Log.i("WINNER", "Player " + winner + " wins !");
-                    showWinnerDialog(cases);
+                    if(winner == 1)
+                        showWinnerDialog(joueur1Pseudo);
+                    else if(winner == 2)
+                        showWinnerDialog(joueur2Pseudo);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(GameActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
             }
-
         });
     }
 
-    private void showWinnerDialog(Long[] cases){
+    public void updateInterfaceBasedOnTurn(Long auTourDe){
+        List<Button> listButtons = getAllButtons();
+        TextView tourTextView = findViewById(R.id.tourTextView);
+        if(auTourDe == playerNumber) {
+            tourTextView.setText("A vous de jouer !");
+            for(int i=0;i< listButtons.size();i++){
+                Drawable background = listButtons.get(i).getBackground();
+                if(background == getDrawable(R.drawable.cercle_background))
+                    listButtons.get(i).setClickable(true);
+            }
+        }
+        else{
+            for(int i=0;i< listButtons.size();i++){
+                listButtons.get(i).setClickable(false);
+            }
+            tourTextView.setText("L'adversaire joue ...");
+        }
+    }
+
+    private void addListenerToRefTour() {
+        refTour.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                auTourDe = (Long) snapshot.getValue();
+                updateInterfaceBasedOnTurn(auTourDe);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(GameActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showWinnerDialog(String pseudo){
         new AlertDialog.Builder(this)
                 .setTitle("Partie terminée")
-                .setMessage("Un joueur a gagné la partie !")
+                .setMessage(pseudo+" a gagné la partie !")
                 .setPositiveButton("Rejouer", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        //initButtons();
                         clearCases();
                     }
                 })
                 .setNegativeButton("Quitter", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // Quitter l'app
+                        exit();
                     }
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
+
+    private void exit(){
+        this.finishAffinity();
     }
 
     private void clearCases(){

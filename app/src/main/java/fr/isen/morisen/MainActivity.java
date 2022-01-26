@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy(){
         super.onDestroy();
+        mDatabase.child("salon1").child("auTourDe").setValue(1);
         mDatabase.child("salon1").child("joueurs").child("joueur1").child("telephone").setValue("");
         mDatabase.child("salon1").child("joueurs").child("joueur1").child("pseudo").setValue("");
         mDatabase.child("salon1").child("joueurs").child("joueur2").child("telephone").setValue("");
