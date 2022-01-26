@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/cercle_background.xml" value="0.18547008547008548" />
         <entry key="app/src/main/res/drawable/circle.xml" value="0.30470085470085473" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.17136752136752137" />
         <entry key="app/src/main/res/layout/activity_game.xml" value="0.5" />
@@ -10,6 +11,7 @@
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.22" />
         <entry key="app/src/main/res/layout/register_activity.xml" value="0.33" />
         <entry key="app/src/main/res/layout/signin_error.xml" value="0.26197916666666665" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/cercle.xml" value="0.18547008547008548" />
       </map>
     </option>
   </component>

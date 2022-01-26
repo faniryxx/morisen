@@ -149,10 +149,11 @@ public class GameActivity extends AppCompatActivity {
             Button button = listButtons.get(i);
             //button.setText(String.valueOf(cases[i]));
             if(cases[i] == 1){
-                button.setForeground(getDrawable(R.drawable.cercle_background));
+                button.setForeground(getDrawable(R.mipmap.cercle_foreground));
+                Log.i("DEBUG", "cases["+i+"+] == 1");
             }
             else if(cases[i] == 2){
-                button.setForeground(getDrawable(R.drawable.cercle_background));
+                button.setForeground(getDrawable(R.mipmap.croix_foreground));
             }
 
             if(cases[i] != 0){
@@ -160,6 +161,7 @@ public class GameActivity extends AppCompatActivity {
             }
             else if(cases[i] == 0){
                 button.setClickable(true);
+                button.setForeground(getDrawable(R.drawable.cercle_background));
             }
         }
     }
