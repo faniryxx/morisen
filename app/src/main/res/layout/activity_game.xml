@@ -41,6 +41,7 @@
         android:layout_width="299dp"
         android:layout_height="280dp"
         android:measureWithLargestChild="true"
+        android:showDividers="middle"
         android:stretchColumns="0.3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,13 +51,18 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:showDividers="middle|beginning|end">
 
             <Button
                 android:id="@+id/button0"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:backgroundTint="#00FFFFFF"
+                android:onClick="buttonClicked"
+                android:tag="0"
                 android:text="button0" />
 
             <Button
@@ -64,6 +70,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:backgroundTint="#00FFFFFF"
+                android:onClick="buttonClicked"
+                android:tag="1"
                 android:text="button1" />
 
             <Button
@@ -71,19 +81,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:backgroundTint="#00FFFFFF"
+                android:onClick="buttonClicked"
+                android:tag="2"
                 android:text="button2" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:showDividers="middle|beginning|end">
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:backgroundTint="#00FFFFFF"
+                android:onClick="buttonClicked"
+                android:tag="3"
                 android:text="button3" />
 
             <Button
@@ -91,6 +110,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:backgroundTint="#00FFFFFF"
+                android:onClick="buttonClicked"
+                android:tag="4"
                 android:text="button4" />
 
             <Button
@@ -98,19 +121,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:backgroundTint="#00FFFFFF"
+                android:onClick="buttonClicked"
+                android:tag="5"
                 android:text="button5" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="165dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:showDividers="middle|beginning|end">
 
             <Button
                 android:id="@+id/button6"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:backgroundTint="#00FFFFFF"
+                android:onClick="buttonClicked"
+                android:tag="6"
                 android:text="button6" />
 
             <Button
@@ -118,6 +150,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:backgroundTint="#00FFFFFF"
+                android:onClick="buttonClicked"
+                android:tag="7"
                 android:text="button7" />
 
             <Button
@@ -125,6 +161,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:backgroundTint="#00FFFFFF"
+                android:onClick="buttonClicked"
+                android:tag="8"
                 android:text="button8" />
         </TableRow>
     </TableLayout>

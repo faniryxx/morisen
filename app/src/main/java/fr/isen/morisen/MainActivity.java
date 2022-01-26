@@ -58,6 +58,15 @@ public class MainActivity extends AppCompatActivity {
         mDatabase.child("salon1").child("joueurs").child("joueur1").child("pseudo").setValue("");
         mDatabase.child("salon1").child("joueurs").child("joueur2").child("telephone").setValue("");
         mDatabase.child("salon1").child("joueurs").child("joueur2").child("pseudo").setValue("");
+        mDatabase.child("salon1").child("cases").child("0").setValue(0);
+        mDatabase.child("salon1").child("cases").child("1").setValue(0);
+        mDatabase.child("salon1").child("cases").child("2").setValue(0);
+        mDatabase.child("salon1").child("cases").child("3").setValue(0);
+        mDatabase.child("salon1").child("cases").child("4").setValue(0);
+        mDatabase.child("salon1").child("cases").child("5").setValue(0);
+        mDatabase.child("salon1").child("cases").child("6").setValue(0);
+        mDatabase.child("salon1").child("cases").child("7").setValue(0);
+        mDatabase.child("salon1").child("cases").child("8").setValue(0);
         Log.i("DESTROYED", "Activity destroyed");
     }
 

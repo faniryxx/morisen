@@ -74,17 +74,9 @@ public class RegisterActivity extends AppCompatActivity{
     }
 
     private void getPlayerDetails() {
-        // calling add value event listener method
-        // for getting the values from database.
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // this method is call to get the realtime
-                // updates in the data.
-                // this method is called when the data is
-                // changed in our Firebase console.
-                // below line is for getting the data from
-                // snapshot of our database.
                 HashMap value = (HashMap) snapshot.getValue();
                 HashMap joueur1Data = (HashMap) value.get("salon1");
                 joueur1Data = (HashMap) joueur1Data.get("joueurs");
@@ -99,16 +91,10 @@ public class RegisterActivity extends AppCompatActivity{
                 String joueur2Telephone = (String) joueur2Data.get("telephone");
 
                 setVariables(joueur1Pseudo,joueur1Telephone,joueur2Pseudo,joueur2Telephone);
-
-                // after getting the value we are setting
-                // our value to our text view in below line.
-                //Log.i("VALUE", value.toString());
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // calling on cancelled method when we receive
-                // any error or we are not able to get the data.
                 Toast.makeText(RegisterActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
             }
 
