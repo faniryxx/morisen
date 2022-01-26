@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -110,7 +111,6 @@ public class GameActivity extends AppCompatActivity {
     public void buttonClicked(View view){
         String buttonIndex = (String) view.getTag();
         Button button = (Button) view;
-
         button.setClickable(false);
         refCases.child(buttonIndex).setValue(this.playerNumber);
     }
@@ -147,7 +147,14 @@ public class GameActivity extends AppCompatActivity {
 
         for(int i=0;i< listButtons.size();i++){
             Button button = listButtons.get(i);
-            button.setText(String.valueOf(cases[i]));
+            //button.setText(String.valueOf(cases[i]));
+            if(cases[i] == 1){
+                button.setForeground(getDrawable(R.drawable.cercle_background));
+            }
+            else if(cases[i] == 2){
+                button.setForeground(getDrawable(R.drawable.cercle_background));
+            }
+
             if(cases[i] != 0){
                 button.setClickable(false);
             }
